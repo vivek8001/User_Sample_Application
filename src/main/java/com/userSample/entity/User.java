@@ -1,19 +1,17 @@
 package com.userSample.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name="users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     private String userName;
     private String password;
     private String fullName;
@@ -22,7 +20,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, String userName, String password, String fullName, String roles) {
+    public User(Long id, String userName, String password, String fullName, String roles) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -30,11 +28,11 @@ public class User {
         this.roles = roles;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
