@@ -1,7 +1,7 @@
-package com.userSample.controller;
+package com.taskmanagementsystem.controller;
 
-import com.userSample.entity.User;
-import com.userSample.service.UserService;
+import com.taskmanagementsystem.entity.User;
+import com.taskmanagementsystem.service.IUserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
-    UserService userService;
+    IUserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 
@@ -30,4 +30,15 @@ public class UserController {
     public User createUser(@RequestBody User user){
         return userService.addUser(user);
     }
+
+    @PutMapping
+    public User updateUser(@RequestBody User user, @RequestParam Long id){
+        return userService.updateUser(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+    }
+
 }

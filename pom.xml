@@ -8,10 +8,10 @@
 		<version>3.5.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>userSample</groupId>
-	<artifactId>userSample</artifactId>
+	<groupId>taskmanagementsystem</groupId>
+	<artifactId>taskmanagementsystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>userSample</name>
+	<name>taskmanagementsystem</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -44,11 +44,7 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

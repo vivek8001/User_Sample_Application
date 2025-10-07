@@ -1,10 +1,10 @@
-package com.userSample.service;
+package com.taskmanagementsystem.service;
 
-import com.userSample.entity.User;
+import com.taskmanagementsystem.entity.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface IUserService {
 
     List<User> getAllUser();
     User getUserById(Long id);
