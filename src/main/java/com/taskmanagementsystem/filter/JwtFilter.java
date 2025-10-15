@@ -1,5 +1,6 @@
 package com.taskmanagementsystem.filter;
 
+import com.taskmanagementsystem.service.IUserService;
 import com.taskmanagementsystem.utility.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,7 +25,12 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsService  userDetailsService;
+
+    public JwtFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -40,7 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
             if(username!=null && SecurityContextHolder.getContext().getAuthentication() ==null){
-                UserDetails userDetails= userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails= userDetails.loadUserByUsername(username);
                 if(jwtUtil.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken=
                             new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());

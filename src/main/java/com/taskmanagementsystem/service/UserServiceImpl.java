@@ -3,6 +3,7 @@ package com.taskmanagementsystem.service;
 import com.taskmanagementsystem.exception.UserNotFoundException;
 import com.taskmanagementsystem.repository.IUserRepository;
 import com.taskmanagementsystem.entity.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,5 +46,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById( id);
+    }
+
+    @Override
+    public User loadUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(()->new UserNotFoundException("User"));
     }
 }
