@@ -3,7 +3,6 @@ package com.taskmanagementsystem.service;
 import com.taskmanagementsystem.exception.UserNotFoundException;
 import com.taskmanagementsystem.repository.IUserRepository;
 import com.taskmanagementsystem.entity.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User updateUser(Long id, User user) {
         User userUpdate = getUserById(id);
-        userUpdate.setUserName(user.getUserName());
+        userUpdate.setUsername(user.getUsername());
         userUpdate.setRoles(user.getRoles());
         userUpdate.setFullName(user.getFullName());
         userUpdate.setPassword(user.getPassword());

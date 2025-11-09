@@ -2,6 +2,7 @@ package com.taskmanagementsystem.controller;
 
 import com.taskmanagementsystem.entity.Project;
 import com.taskmanagementsystem.service.IProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @RequestMapping("/api/projects")
 public class ProjectController {
 
+    @Autowired
     private IProjectService projectService;
 
     @GetMapping

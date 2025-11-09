@@ -4,22 +4,23 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String userName;
+    private String username;
     private String password;
     private String fullName;
     private String roles;
 
+
     public User() {
     }
 
-    public User(Long id, String userName, String password, String fullName, String roles) {
+    public User(Long id, String username, String password, String fullName, String roles) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.fullName = fullName;
         this.roles = roles;
@@ -33,21 +34,23 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+    public String getPassword() {
+       return password;
+    }
+
 
     public String getFullName() {
         return fullName;
@@ -64,4 +67,12 @@ public class User {
     public void setRoles(String roles) {
         this.roles = roles;
     }
+
+    enum Role {
+        USER,      // Regular user
+        ADMIN,     // Administrator
+        MODERATOR  // Moderator (optional)
+    }
+
+
 }
