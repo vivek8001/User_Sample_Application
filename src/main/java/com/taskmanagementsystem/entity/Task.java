@@ -19,7 +19,7 @@ public class Task {
     }
 
     public Task(Long id, String status, String title, String details) {
-        id = id;
+        this.id = id;
         this.status = status;
         this.title = title;
         this.details = details;
