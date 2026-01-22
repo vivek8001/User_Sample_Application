@@ -1,7 +1,11 @@
 package com.taskmanagementsystem.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.taskmanagementsystem.payloads.ApiResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,7 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -52,6 +58,12 @@ public class SecurityConfig {
                 .jwt(jwt -> jwt
                     .jwtAuthenticationConverter(jwtAuthenticationConverter()) // Custom role extraction
                 )
+                .authenticationEntryPoint(authenticationEntryPoint()) // Custom 401 handler
+                .accessDeniedHandler(accessDeniedHandler()) // Custom 403 handler
+            )
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint(authenticationEntryPoint())
+                .accessDeniedHandler(accessDeniedHandler())
             );
 
         return http.build();
@@ -107,6 +119,36 @@ public class SecurityConfig {
         });
 
         return converter;
+    }
+
+    /**
+     * Custom authentication entry point for 401 Unauthorized errors
+     * Returns a JSON response with error details instead of empty body
+     */
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, authException) -> {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            ApiResponse apiResponse = new ApiResponse("Unauthorized: Invalid or missing authentication token");
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().write(mapper.writeValueAsString(apiResponse));
+        };
+    }
+
+    /**
+     * Custom access denied handler for 403 Forbidden errors
+     * Returns a JSON response with error details instead of empty body
+     */
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            ApiResponse apiResponse = new ApiResponse("Forbidden: You don't have permission to access this resource");
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().write(mapper.writeValueAsString(apiResponse));
+        };
     }
 
     /**
